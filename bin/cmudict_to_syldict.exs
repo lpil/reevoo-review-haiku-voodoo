@@ -1,15 +1,16 @@
-cmudict = File.stream!( "cmudict" )
+cmudict        = File.stream!( "cmudict" )
 {:ok, syldict} = File.open( "syldict", [:write] )
 
-starts_with_vowel = &String.match?( &1, ~r/\A[AEIOU]/ )
+starts_with_letter = &String.match?( &1, ~r/\A[A-Z]/ )
+starts_with_vowel  = &String.match?( &1, ~r/\A[AEIOU]/ )
 
 for line <- cmudict do
-  if starts_with_vowel.(line) do
+  if starts_with_letter.(line) do
     [word|syls] = String.split( line )
     count       = Enum.filter( syls, starts_with_vowel ) |> length
-    IO.write( syldict, "#{ word } #{ count }\n" )
+
+    if String.valid?( word ) do
+      IO.write( syldict, "#{ word } #{ count }\n" )
+    end
   end
 end
-
-File.close( cmudict )
-File.close( syldict )
