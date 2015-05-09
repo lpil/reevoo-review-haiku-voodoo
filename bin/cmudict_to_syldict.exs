@@ -10,3 +10,6 @@ for line <- cmudict do
     IO.write( syldict, "#{ word } #{ count }\n" )
   end
 end
+
+File.close( cmudict )
+File.close( syldict )
