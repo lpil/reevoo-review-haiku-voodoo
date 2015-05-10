@@ -1,4 +1,4 @@
-defmodule ReevooReviewHaikuVoodooTest do
+defmodule RRHVTest do
   use ExUnit.Case
 
   test "the truth" do

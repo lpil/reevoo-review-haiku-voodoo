@@ -1,8 +1,8 @@
-defmodule ReevooReviewHaikuVoodoo.Mixfile do
+defmodule RRHV.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :reevoo_review_haiku_voodoo,
+    [app: :r_r_h_v,
      version: "0.0.1",
      elixir: "~> 1.0",
      deps: deps]
@@ -25,6 +25,8 @@ defmodule ReevooReviewHaikuVoodoo.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [
+      {:mariaex, "~> 0.1"},
+    ]
   end
 end
