@@ -27,6 +27,7 @@ defmodule RRHV.Mixfile do
   defp deps do
     [
       {:mariaex, "~> 0.1"},
+      {:shouldi, "~> 0.2.2", only: :test},
     ]
   end
 end

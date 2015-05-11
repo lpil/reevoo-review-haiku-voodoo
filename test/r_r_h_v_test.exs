@@ -1,7 +1,10 @@
 defmodule RRHVTest do
   use ExUnit.Case
+  use ShouldI
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  with "to_phrases" do
+    should "the truth" do
+      assert 1 + 1 == 2
+    end
   end
 end
