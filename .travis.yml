@@ -11,6 +11,7 @@ before_install:
   - git checkout v1.0.4
   - cd ..
   - make -C elixir
+  - cat bin/setup_test_db.sql | mysql -u root
   - yes | MIX_ENV=test mix deps.get
   - MIX_ENV=test mix compile
 
