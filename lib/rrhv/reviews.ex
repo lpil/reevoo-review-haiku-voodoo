@@ -35,7 +35,7 @@ defmodule RRHV.Reviews do
   ###############
 
   def init(:ok) do
-    DB.start_link( username: "root", database: "revieworld_live" )
+    DB.start_link( username: "root", database: database )
   end
 
   def handle_call({:get, args}, _from, db) do
@@ -48,6 +48,13 @@ defmodule RRHV.Reviews do
   ###########
   #  Logic  #
   ###########
+
+  defp database do
+    case Mix.env do
+      :test -> "rrhv_test"
+      _     -> "revieworld_live"
+    end
+  end
 
   defp niceify(result) do
     cols = result.columns |> Enum.map( &String.to_atom(&1) )
