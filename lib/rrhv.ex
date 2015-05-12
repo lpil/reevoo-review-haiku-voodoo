@@ -1,7 +1,26 @@
 defmodule RRHV do
-  def haiku?(words) do
-    false
+  use Application
+
+  def start(_type, _args) do
+    RRHV.Syllables.start_link
   end
+
+  def haiku?(prose, ignore_punctuation: true) do
+    17 == prose
+        |> to_words
+        |> Enum.map( &RRHV.Syllables.count(&1) )
+        |> Enum.sum
+  end
+
+
+  def haiku?(prose) do
+    haiku?(prose, ignore_punctuation: false)
+  end
+
+  def haiku?(prose, ignore_punctuation: false) do
+    raise "Not yet implemented"
+  end
+
 
   defp to_phrases(prose) do
     String.split( prose, ~r/[\.,!;\n]/, trim: true )

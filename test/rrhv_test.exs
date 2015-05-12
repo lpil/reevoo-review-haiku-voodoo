@@ -53,7 +53,7 @@ defmodule RRHVTest do
       should "recognise 17 syllables as a haiku" do
         assert RRHV.haiku? """
         a a a a a a a a a a a a a a a a a
-        """
+        """, ignore_punctuation: true
       end
 
       should "recognise 17 punctuated syllables as a haiku" do
@@ -61,7 +61,21 @@ defmodule RRHVTest do
         a a a a
         a a a, a a a a. a a!! a a a.
         a
-        """
+        """, ignore_punctuation: true
+      end
+
+      should "recognise 7 syllables as not a haiku" do
+        refute RRHV.haiku? """
+        a a a a a a a
+        """, ignore_punctuation: true
+      end
+
+      should "recognise 8 punctuated syllables as a haiku" do
+        refute RRHV.haiku? """
+        a 
+        a, a a. a a!! a.
+        a
+        """, ignore_punctuation: true
       end
     end
 

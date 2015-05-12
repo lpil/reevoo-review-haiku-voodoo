@@ -1,12 +1,7 @@
 defmodule RRHV.Syllables do
-  def init(syldict \\ "syldict") do
-    :ets.new( :syllables, [:named_table] )
-    syldict = File.stream!( syldict )
-
-    Enum.each syldict, fn line ->
-      [word, count] = String.split( line )
-      :ets.insert( :syllables, {word, count} )
-    end
+  def start_link(syldict \\ "syldict") do
+    load_syldict!(syldict)
+    {:ok, self}
   end
 
   def count(word) do
@@ -15,7 +10,19 @@ defmodule RRHV.Syllables do
       [{_, count}] ->
         {count, _} = Integer.parse( count )
         count
-      _ -> nil
+      _ ->
+        nil
     end
+  end
+
+  defp load_syldict!(syldict) do
+    :ets.new( :syllables, [:named_table] )
+    syldict = File.stream!( syldict )
+
+    Enum.each syldict, fn line ->
+      [word, count] = String.split( line )
+      :ets.insert( :syllables, {word, count} )
+    end
+    
   end
 end
