@@ -4,6 +4,10 @@ defmodule RRHV.Syllables do
     {:ok, self}
   end
 
+  def count("") do
+    0
+  end
+
   def count(word) do
     word = String.upcase( word )
     case :ets.lookup( :syllables, word ) do
