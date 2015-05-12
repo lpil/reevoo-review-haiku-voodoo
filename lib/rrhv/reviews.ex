@@ -1,4 +1,6 @@
 defmodule RRHV.Reviews do
+  use GenServer
+
   alias Mariaex.Connection, as: DB
 
   @query """
@@ -10,22 +12,45 @@ defmodule RRHV.Reviews do
       OR bad_points IS NOT NULL
       OR general_comments IS NOT NULL
     )
-    LIMIT 100
-    OFFSET ?;
+  LIMIT ?
+  OFFSET ?;
   """
 
-  def init do
-    {:ok, db} = DB.start_link( username: "root", database: "revieworld_live" )
-    db
+  def start_link do
+    GenServer.start_link( __MODULE__, :ok, name: Reviews )
   end
 
-  def get(db, offset \\ 0) do
-    {:ok, result} = DB.query( db, @query, [offset] )
-    niceify result
+  def get(num \\ 20) do
+    get num, offset: 0
   end
+
+  def get(num, offset: offset) do
+    args = [num, offset]
+    GenServer.call( Reviews, {:get, args} )
+  end
+
+
+  ###############
+  #  Callbacks  #
+  ###############
+
+  def init(:ok) do
+    DB.start_link( username: "root", database: "revieworld_live" )
+  end
+
+  def handle_call({:get, args}, _from, db) do
+    {:ok, result} = DB.query( db, @query, args )
+    result = niceify result
+    {:reply, result, db}
+  end
+
+
+  ###########
+  #  Logic  #
+  ###########
 
   defp niceify(result) do
-    cols = Enum.map( result.columns, &String.to_atom(&1) )
+    cols = result.columns |> Enum.map( &String.to_atom(&1) )
     Enum.map result.rows, fn row ->
       vals = Tuple.to_list( row )
       Enum.zip( cols, vals )

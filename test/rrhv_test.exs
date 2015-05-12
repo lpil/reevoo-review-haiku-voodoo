@@ -80,4 +80,8 @@ defmodule RRHVTest do
     end
 
   end
+
+  should "be able to query db without crashing" do
+    RRHV.Reviews.get
+  end
 end

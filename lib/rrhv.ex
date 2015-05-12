@@ -3,6 +3,7 @@ defmodule RRHV do
 
   def start(_type, _args) do
     RRHV.Syllables.start_link
+    RRHV.Reviews.start_link
   end
 
   def haiku?(prose) do
