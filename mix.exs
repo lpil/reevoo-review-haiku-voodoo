@@ -22,6 +22,8 @@ defmodule RRHV.Mixfile do
       {:mariaex, "~> 0.1"},
       {:shouldi, "~> 0.2.2", only: :test},
       {:mix_test_watch, []},
+      # {:clint, path: "../clint"},
+      {:clint, github: "lpil/clint"},
     ]
   end
 end
